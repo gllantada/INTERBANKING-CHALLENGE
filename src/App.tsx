@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {  useRef } from "react";
+import { useMessages } from "./hooks/useMessages";
+import { ShowMessages } from "./components/ShowMessages";
+import { Form } from "./components/Form";
+import Styles from "./app.module.css";
 
-function App() {
+const App: React.FC<{}> = () => {
+  const [messages, addMessage, clearAllMessages, filterMessages, getSavedData] =
+    useMessages();
+  const InputRef = useRef<HTMLInputElement>(null);
+  const FilterRef = useRef<HTMLInputElement>(null);
+
+  const handleSave = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (InputRef.current?.value) {
+      const { value } = InputRef.current;
+      value && addMessage({ text: value });
+      InputRef.current.value = "";
+    }
+  };
+  const handleCleanBoard = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    clearAllMessages();
+  };
+  const handleFilter = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (FilterRef.current?.value) {
+      filterMessages(FilterRef.current.value);
+    } else {
+      getSavedData();
+    }
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header className="App-header"></header>
+      <div className={Styles.formsContainer}>
+        <Form
+          testID="phrase-form"
+          inputRef={InputRef}
+          handleSubmit={handleSave}
+          submitText="Save"
+          buttonText="Clean Board"
+          handleCleanBoard={handleCleanBoard}
+        ></Form>
+        <Form
+          testID="filter-form"
+          inputRef={FilterRef}
+          handleSubmit={handleFilter}
+          submitText="Search"
+        ></Form>
+      </div>
+      {messages && <ShowMessages messages={messages} />}
     </div>
   );
-}
+};
 
 export default App;

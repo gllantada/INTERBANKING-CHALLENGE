@@ -1,0 +1,31 @@
+.card {
+  float: left;
+  background-color: rgb(197, 191, 191);
+  border-radius: 6px;
+  border: none;
+  padding: 20px 40px;
+  width: 250px;
+  margin: 25px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.animatedCard {
+  margin: 10px 25px;
+  font-size: 24px;
+  transform: scale(1.1);
+  transition-duration: 1s;
+  overflow: visible;
+  white-space: normal;
+  height: auto;
+  width: 290px;
+}
+div.cardContainer {
+  overflow: hidden;
+  position: relative;
+  min-height: 80vh;
+}
